@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, MusicActivity!</string>
     <string name="app_name">musicr</string>
+<string name="app_path">/musicr/</string>
 </resources>

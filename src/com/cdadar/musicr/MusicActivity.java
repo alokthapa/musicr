@@ -44,7 +44,7 @@ public class MusicActivity extends Activity {
 		{
 
 		    mp = new MediaPlayer();
-		    mp.setDataSource("/sdcard/musicr/temp1.3gp");
+		    mp.setDataSource("/sdcard/woods.mp3");
 		    mp.prepare();
 		    mp.start();
 		}catch(Exception e){
@@ -60,7 +60,7 @@ public class MusicActivity extends Activity {
 		{
 
 		    mp = new MediaPlayer();
-		    mp.setDataSource("/sdcard/musicr/temp2.3gp");
+		    mp.setDataSource("/sdcard/chudai.mp3");
 		    mp.prepare();
 		    mp.start();
 		}catch(Exception e){
@@ -93,6 +93,7 @@ public class MusicActivity extends Activity {
 	private View.OnClickListener playListener = new View.OnClickListener() {
 		public void onClick(View v) {
 				play2();
+				play();
 		
 		}
 	};

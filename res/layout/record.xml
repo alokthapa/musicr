@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+ 
+ <TextView  android:id="@+id/txtrecord"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Start recording your music!"
+    />
+ <TextView  android:id="@+id/txtrecordproject"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text=""
+    />
+ 
+  <TextView  android:id="@+id/txtrecordtrack"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text=""
+    />
+ 
+ 
+ <Button android:id="@+id/btnsettings" 
+ 			android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:text="Settings..." />
+ 			
+ <Button android:id="@+id/btnrecord" 
+ 			android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:text="Record" />
+ <Button android:id="@+id/btnstoprecord" 
+ 			android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:text="Stop" />
+ 			
+
+</LinearLayout>
