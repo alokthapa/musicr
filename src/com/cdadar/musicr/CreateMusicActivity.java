@@ -19,17 +19,17 @@ public class CreateMusicActivity extends Activity {
 		public void onClick(View v) {
 			String projectname = ((EditText) findViewById(R.id.filename)).getText().toString();
 
-			Project p = Project.CreateProject(projectname);
-			P.setCurrentProject(p);
-			if (p == null){
-				new AlertDialog.Builder(v.getContext())
-			      .setMessage("no workey")
-			      .show();
+			try{
+				Project p = Project.CreateProject(projectname);
+				 Intent myIntent = new Intent(v.getContext(), RecordActivity.class);
+		            P.setCurrentProject(p);
+		            startActivityForResult(myIntent, 0);
 			}
-			else{
-	            Intent myIntent = new Intent(v.getContext(), RecordActivity.class);
-	            P.setCurrentProject(p);
-	            startActivityForResult(myIntent, 0);
+			catch(Exception e)
+			{
+				new AlertDialog.Builder(v.getContext())
+			      .setMessage(e.toString())
+			      .show();
 			}
 		}
 	};

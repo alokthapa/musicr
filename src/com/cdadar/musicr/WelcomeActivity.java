@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 public class WelcomeActivity extends Activity {
 
-	
-	
 	private View.OnClickListener lastListener = new View.OnClickListener() {
 		public void onClick(View v) {
 		

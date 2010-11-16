@@ -14,20 +14,21 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
+        public static final int addtrack=0x7f050011;
         public static final int btncreatecancel=0x7f050003;
         public static final int btnnewfile=0x7f050002;
         public static final int btnrecord=0x7f05000c;
         public static final int btnsettings=0x7f05000b;
         public static final int btnstoprecord=0x7f05000d;
-        public static final int create=0x7f050013;
+        public static final int create=0x7f050014;
         public static final int filename=0x7f050001;
-        public static final int last=0x7f050012;
+        public static final int last=0x7f050013;
         public static final int newtrack=0x7f050010;
         public static final int play=0x7f050007;
-        public static final int select=0x7f050014;
+        public static final int select=0x7f050015;
         public static final int start=0x7f050005;
         public static final int stop=0x7f050006;
-        public static final int tracklist=0x7f050011;
+        public static final int tracklist=0x7f050012;
         public static final int txt=0x7f050004;
         public static final int txtcreate=0x7f050000;
         public static final int txtrecord=0x7f050008;

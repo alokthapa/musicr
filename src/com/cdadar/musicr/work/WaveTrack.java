@@ -3,7 +3,6 @@ package com.cdadar.musicr.work;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import com.cdadar.musicr.work.RehearsalAudioRecorder.State;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;

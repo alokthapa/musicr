@@ -26,12 +26,11 @@ public class RecordActivity extends Activity {
         setContentView(R.layout.record);
         TextView tv = (TextView)findViewById(R.id.txtrecordproject);
         
-        //p = new Project(getIntent().getStringExtra("com.cdadar.musicr.project"));
         p = P.currentProject();
         tv.setText("Project name "+ p.name());
         
         TextView tv1 = (TextView)findViewById(R.id.txtrecordtrack);
-        tv1.setText("Track name:"+ p.getCurrentTrack());
+        tv1.setText("Track name:"+ p.getTrackList().currentTrack().getName());
 
         findViewById(R.id.btnrecord).setOnClickListener(
         		new View.OnClickListener() {
