@@ -37,6 +37,13 @@ public class TrackList {
 		return !(findTrack(name) == null);
 		
 	}
+	
+	public ArrayList<Track> getRecordingTracks()
+	{
+		return null;
+		
+		
+	}
 	public Track findTrack(String name)
 	{
 		for(int i = 0;i< getTracks().size();i++)
