@@ -28,7 +28,10 @@ public class Project {
 	
 	public String getCurrentTrackPath(){ return getTrackPath(tlist.currentTrack());}
 	
-	public String getTrackPath(Track track){ return apppath+projname +"/"+track.getName()+".wav";}
+	public String getTrackPath(Track track){ return getTrackPath(track.getName());}
+	
+	public String getTrackPath(String track){ return apppath+projname +"/"+track+".wav";}
+
 	
 	public String name(){return this.projname;}
 	

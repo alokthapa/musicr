@@ -69,6 +69,7 @@ public class WavFile
 
 	public static WavFile newWavFile(File file, int numChannels, long numFrames, int validBits, long sampleRate) throws IOException, WavFileException
 	{
+		// Instantiate new Wavfile and initialise
 		WavFile wavFile = new WavFile();
 		wavFile.file = file;
 		wavFile.numChannels = numChannels;
@@ -582,6 +583,9 @@ public class WavFile
 	{
 		return readFrames(sampleBuffer, 0, numFramesToRead);
 	}
+	
+
+	
 
 	public int readFrames(double[][] sampleBuffer, int offset, int numFramesToRead) throws IOException, WavFileException
 	{
@@ -688,58 +692,5 @@ public class WavFile
 		out.printf("Valid Bits: %d, Bytes per sample: %d\n", validBits, bytesPerSample);
 	}
 
-	public static void main(String[] args)
-	{
-		if (args.length < 1)
-		{
-			System.err.println("Must supply filename");
-			System.exit(1);
-		}
 
-		try
-		{
-			for (String filename : args)
-			{
-				WavFile readWavFile = openWavFile(new File(filename));
-				readWavFile.display();
-
-				long numFrames = readWavFile.getNumFrames();
-				int numChannels = readWavFile.getNumChannels();
-				int validBits = readWavFile.getValidBits();
-				long sampleRate = readWavFile.getSampleRate();
-
-				WavFile writeWavFile = newWavFile(new File("out.wav"), numChannels, numFrames, validBits, sampleRate);
-
-				final int BUF_SIZE = 5001;
-
-//				int[] buffer = new int[BUF_SIZE * numChannels];
-//				long[] buffer = new long[BUF_SIZE * numChannels];
-				double[] buffer = new double[BUF_SIZE * numChannels];
-
-				int framesRead = 0;
-				int framesWritten = 0;
-
-				do
-				{
-					framesRead = readWavFile.readFrames(buffer, BUF_SIZE);
-					framesWritten = writeWavFile.writeFrames(buffer, BUF_SIZE);
-					System.out.printf("%d %d\n", framesRead, framesWritten);
-				}
-				while (framesRead != 0);
-				
-				readWavFile.close();
-				writeWavFile.close();
-			}
-
-			WavFile writeWavFile = newWavFile(new File("out2.wav"), 1, 10, 23, 44100);
-			double[] buffer = new double[10];
-			writeWavFile.writeFrames(buffer, 10);
-			writeWavFile.close();
-		}
-		catch (Exception e)
-		{
-			System.err.println(e);
-			e.printStackTrace();
-		}
-	}
 }

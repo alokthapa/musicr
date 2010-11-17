@@ -1,9 +1,10 @@
 package com.cdadar.musicr;
-
+import com.cdadar.musicr.work.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.media.AudioFormat;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder.AudioSource;
 import android.os.Bundle;
 import android.os.Message;
@@ -18,8 +19,6 @@ public class RecordActivity extends Activity {
 	Project p = null;	
 	RehearsalAudioRecorder rec = null;
 	
-
-	
 	public void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
@@ -32,6 +31,27 @@ public class RecordActivity extends Activity {
         TextView tv1 = (TextView)findViewById(R.id.txtrecordtrack);
         tv1.setText("Track name:"+ p.getTrackList().currentTrack().getName());
 
+        findViewById(R.id.btnplay).setOnClickListener(
+        		new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						MixWave mix = new MixWave(P.currentProject());
+						mix.mix();
+					    MediaPlayer mp = new MediaPlayer();
+					    try{
+						    mp.setDataSource(P.currentProject().getTrackPath("mix"));
+						    mp.prepare();
+						    mp.start();
+						    
+						    
+					    }
+					    catch(Exception e){ Log.e("err", "error in btnplay onclick: "+ e.toString());}
+					}
+				});
+        
+        
         findViewById(R.id.btnrecord).setOnClickListener(
         		new View.OnClickListener() {
         			public void onClick(View v) {

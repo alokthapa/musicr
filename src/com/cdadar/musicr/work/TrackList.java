@@ -40,10 +40,26 @@ public class TrackList {
 	
 	public ArrayList<Track> getRecordingTracks()
 	{
-		return null;
+		ArrayList<Track> recs = new ArrayList<Track>();
 		
-		
+		for(int i =0; i< tracks.size();i++ )
+		{
+			if (tracks.get(i).isSolo())
+			{
+				recs.clear();
+				recs.add(tracks.get(i));
+				return recs;
+			}
+			else if(!tracks.get(i).isRecording() && !tracks.get(i).isMuted())
+			{
+				recs.add(tracks.get(i));
+			}
+		}
+		return recs;
 	}
+	
+	
+	
 	public Track findTrack(String name)
 	{
 		for(int i = 0;i< getTracks().size();i++)
