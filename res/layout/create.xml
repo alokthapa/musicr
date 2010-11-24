@@ -14,7 +14,7 @@
  <EditText android:id="@+id/filename" 
  			android:layout_width="fill_parent"
  			android:layout_height="wrap_content"
- 			android:text="filename" android:editable="true"/>
+ 			android:editable="true"/>
  
  <Button android:id="@+id/btnnewfile" 
  			android:layout_width="fill_parent"

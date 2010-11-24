@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.PowerManager;
 import android.content.Context;
 import com.cdadar.musicr.work.*;
@@ -35,6 +36,12 @@ public class RecordActivity extends Activity {
         tv1.setText("Track name:"+ p.getTrackList().currentTrack().getName());
         
         findViewById(R.id.btnstoprecord).setEnabled(false);
+
+	if (P.currentProject().getTrackList().getRecordingTracks().size() < 1)
+	    {
+		findViewById(R.id.btnplay).setEnabled(false);
+		
+	    }
         
         findViewById(R.id.btnplay).setOnClickListener(
 						      new View.OnClickListener() {
@@ -45,7 +52,6 @@ public class RecordActivity extends Activity {
 							      //check if wl is already being used
 							      if (wl != null && wl.isHeld())
 								  wl.release();
-
 							      PowerManager pm = (PowerManager) v.getContext().getSystemService(Context.POWER_SERVICE);
 							      wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
 							      wl.acquire();
@@ -53,7 +59,6 @@ public class RecordActivity extends Activity {
 							      mix.mix();
 							      mp = new MediaPlayer();
 							      try{
-					    	
 								  mp.setDataSource(P.currentProject().getTrackPath("mix"));
 								  mp.prepare();
 								  mp.start();
@@ -90,13 +95,16 @@ public class RecordActivity extends Activity {
 								  wl.release();
 							      wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
 							      wl.acquire();
-							      MixWave mix = new MixWave(P.currentProject());
-							      mix.mix();
-							      mp = new MediaPlayer();
 							      try{
-					    	
-								  mp.setDataSource(P.currentProject().getTrackPath("mix"));
-								  mp.prepare();
+								  MixWave mix = null;
+								  if (P.currentProject().getTrackList().getRecordingTracks().size() > 0)
+								  {
+								      mix = new MixWave(P.currentProject());
+								      mix.mix();
+								      mp = new MediaPlayer();
+								      mp.setDataSource(P.currentProject().getTrackPath("mix"));
+								      mp.prepare();
+								  }
 						    
 								  // and record!
 								  rec = 
@@ -109,8 +117,9 @@ public class RecordActivity extends Activity {
 								  rec.setOutputFile(p.getCurrentTrackPath());
 								  rec.prepare();
 
-								  mp.start();
-
+								  if (mix != null)
+								      mp.start();
+								  
 								  rec.start();
 								  findViewById(R.id.btnplay).setEnabled(false);
 								  findViewById(R.id.btnrecord).setEnabled(false);

@@ -38,7 +38,7 @@ public class TrackList {
 		return !(findTrack(name) == null);
 		
 	}
-	
+
 	public ArrayList<Track> getRecordingTracks()
 	{
 		ArrayList<Track> recs = new ArrayList<Track>();

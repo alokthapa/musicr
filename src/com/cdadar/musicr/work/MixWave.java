@@ -13,6 +13,7 @@ public class MixWave
 {
 	Project project ;
 	WavFile mix;
+
   public MixWave(Project project)
   {
 	  this.project = project;
@@ -89,21 +90,10 @@ public class MixWave
 	  }
   }
   
-  //this also may need to be broken into small pieces!
+
   private void simpleCopy(WavFile w)
   {
 	  chunkedCopy(w, (int)w.getFramesRemaining());
-	  
-//	  try
-//	  {
-//		  int remaining = (int)w.getFramesRemaining();
-//		  int [] rest = new int [remaining];
-//		  w.readFrames(rest,remaining);
-//		  mix.writeFrames(rest, remaining);
-//	  }
-//	  catch(Exception e) 
-//	  {
-//	  }
   }
   
   private void  mixTracks(ArrayList<WavFile> w)
