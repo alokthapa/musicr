@@ -20,6 +20,7 @@ public class RecordActivity extends Activity {
     Project p = null;	
     RehearsalAudioRecorder rec = null;
     MediaPlayer mp = null;
+    PowerManager.WakeLock wl = null;
 	
     public void onCreate(Bundle savedInstanceState) 
     {
@@ -35,15 +36,18 @@ public class RecordActivity extends Activity {
         
         findViewById(R.id.btnstoprecord).setEnabled(false);
         
-
         findViewById(R.id.btnplay).setOnClickListener(
 						      new View.OnClickListener() {
 					
 							  @Override
 							      public void onClick(View v) {
-							      // TODO Auto-generated method stub
+
+							      //check if wl is already being used
+							      if (wl != null && wl.isHeld())
+								  wl.release();
+
 							      PowerManager pm = (PowerManager) v.getContext().getSystemService(Context.POWER_SERVICE);
-							      PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
+							      wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
 							      wl.acquire();
 							      MixWave mix = new MixWave(P.currentProject());
 							      mix.mix();
@@ -66,15 +70,10 @@ public class RecordActivity extends Activity {
 									  mp.release();
 								      if (rec !=null)
 									  rec.release();
+								      if (wl != null)
+									  wl.release();
 
 								  }
-							      finally
-								  {
-								      wl.release();
-						    
-
-								  }
-
 							  }
 						      });
 
@@ -85,7 +84,11 @@ public class RecordActivity extends Activity {
 							      public void onClick(View v) {
 							      // TODO Auto-generated method stub
 							      PowerManager pm = (PowerManager) v.getContext().getSystemService(Context.POWER_SERVICE);
-							      PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
+
+							      //check if wl is already being used
+							      if (wl != null && wl.isHeld())
+								  wl.release();
+							      wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
 							      wl.acquire();
 							      MixWave mix = new MixWave(P.currentProject());
 							      mix.mix();
@@ -94,7 +97,6 @@ public class RecordActivity extends Activity {
 					    	
 								  mp.setDataSource(P.currentProject().getTrackPath("mix"));
 								  mp.prepare();
-					    
 						    
 								  // and record!
 								  rec = 
@@ -124,24 +126,18 @@ public class RecordActivity extends Activity {
 									  rec.release();
 
 								  }
-							      finally
-								  {
-								      wl.release();
-						    
-
-								  }
-
 							  }
 						      });
         
     	findViewById(R.id.btnsettings ).setOnClickListener(    	
 							   new View.OnClickListener() {
 							       public void onClick(View v) {
+								   if (wl != null && wl.isHeld()) wl.release();
 								   Intent myIntent = new Intent(v.getContext(), SettingsActivity.class);
 								   startActivityForResult(myIntent, 0);
 							       }
 							   });
-    	
+	
         findViewById(R.id.btnstoprecord).setOnClickListener(
 							    new View.OnClickListener() {
 								public void onClick(View v) {
@@ -159,6 +155,7 @@ public class RecordActivity extends Activity {
 									    findViewById(R.id.btnstoprecord).setEnabled(false);
 									}
 
+								    if (wl != null && wl.isHeld()) wl.release();
 								}});
         
         		
