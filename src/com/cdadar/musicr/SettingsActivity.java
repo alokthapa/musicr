@@ -134,6 +134,7 @@ public class SettingsActivity extends Activity{
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 	    Intent myIntent = new Intent(getApplicationContext(), RecordActivity.class);
+	    	P.currentProject().save();
             startActivityForResult(myIntent, 0);
 	    }
 
@@ -154,18 +155,11 @@ public class SettingsActivity extends Activity{
         		new View.OnClickListener() {
         			public void onClick(View v) {
         				LinearLayout layout = (LinearLayout) findViewById(R.id.addtrack);
-        				
-        				
-
         				layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 150));
-        				
-        				
-        				
-
         				final EditText et = new EditText(v.getContext());
         				Button btn = new Button(v.getContext());
         				btn.setText("OK");
-        				
+
         				btn.setOnClickListener(new View.OnClickListener() {
 							
 							@Override

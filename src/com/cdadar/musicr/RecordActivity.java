@@ -18,6 +18,7 @@ import com.cdadar.musicr.work.*;
 public class RecordActivity extends Activity {
 	Project p = null;	
 	RehearsalAudioRecorder rec = null;
+	MediaPlayer mp = null;
 	
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -30,6 +31,9 @@ public class RecordActivity extends Activity {
         
         TextView tv1 = (TextView)findViewById(R.id.txtrecordtrack);
         tv1.setText("Track name:"+ p.getTrackList().currentTrack().getName());
+        
+        findViewById(R.id.btnstoprecord).setEnabled(false);
+        
 
         findViewById(R.id.btnplay).setOnClickListener(
         		new View.OnClickListener() {
@@ -37,20 +41,55 @@ public class RecordActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
+					    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+					    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK);
+					    wl.aquire();
+					    
 						MixWave mix = new MixWave(P.currentProject());
 						mix.mix();
-					    MediaPlayer mp = new MediaPlayer();
+					    mp = new MediaPlayer();
 					    try{
+					    	
 						    mp.setDataSource(P.currentProject().getTrackPath("mix"));
 						    mp.prepare();
-						    mp.start();
+					    
 						    
-						    
+						// and record!
+        				rec = 
+        					new RehearsalAudioRecorder(
+        							true,   //record uncompressed
+        							AudioSource.MIC, 			//audio source
+        							44100, 						//sample rate
+        							AudioFormat.CHANNEL_CONFIGURATION_MONO,  //mono recording
+        							AudioFormat.ENCODING_PCM_16BIT); // 16 bit recording
+        				rec.setOutputFile(p.getCurrentTrackPath());
+        				rec.prepare();
+
+					    mp.start();
+
+        				rec.start();
+        				findViewById(R.id.btnrecord).setEnabled(false);
+        				findViewById(R.id.btnstoprecord).setEnabled(true);
+
 					    }
-					    catch(Exception e){ Log.e("err", "error in btnplay onclick: "+ e.toString());}
+					    catch(Exception e)
+						{ 
+						Log.e("err", "error in btnplay onclick: "+ e.toString());
+						if (mp !=null)
+						    mp.release();
+						if (rec !=null)
+						    rec.release();
+
+					    }
+					    finally
+						{
+						    wl.release();
+						    
+
+						}
+
 					}
 				});
-        
         
         findViewById(R.id.btnrecord).setOnClickListener(
         		new View.OnClickListener() {
@@ -65,6 +104,8 @@ public class RecordActivity extends Activity {
         				rec.setOutputFile(p.getCurrentTrackPath());
         				rec.prepare();
         				rec.start();
+        				findViewById(R.id.btnrecord).setEnabled(false);
+        				findViewById(R.id.btnstoprecord).setEnabled(true);
    		}});
         
     	findViewById(R.id.btnsettings ).setOnClickListener(    	
@@ -75,16 +116,21 @@ public class RecordActivity extends Activity {
 					}
 				});
     	
-    	
-    	
         findViewById(R.id.btnstoprecord).setOnClickListener(
         		new View.OnClickListener() {
         			public void onClick(View v) {
     			
+        				if (mp != null)
+        				{
+        					mp.stop();
+        					mp.release();
+        				}
         				if (rec != null)
         				{
         					rec.stop();
         					rec.release();
+            				findViewById(R.id.btnrecord).setEnabled(true);
+            		        findViewById(R.id.btnstoprecord).setEnabled(false);
         				}
 
         			}});

@@ -1,6 +1,9 @@
 package com.cdadar.musicr.work;
 
-import java.io.File;
+import org.json.*;
+
+
+import java.io.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,20 +13,22 @@ public class Project {
 	
 	TrackList tlist;
 	String projname;
-	String apppath = "/sdcard/commusicr/";
-	String workpath = "";
+	String workpath ;
+	String apppath ;
 	
 	public Project(String projname)
 	{
+		this.apppath = P.ProjectDir;
 		this.projname = projname;
 		tlist = new TrackList();
-		tlist.createNewRecordingTrack("track1");
 		
 	}
 	
 	public TrackList getTrackList() { return tlist;}
 	
+	public void setTrackList(TrackList tlist) { this.tlist = tlist;}
 	
+
 	public String getProjectPath(){return apppath + projname;}
 	
 	public String getCurrentTrackPath(){ return getTrackPath(tlist.currentTrack());}
@@ -39,6 +44,9 @@ public class Project {
 	{
 		Project p = new Project(projname);
 		p.setupProject();
+		p.getTrackList().createNewRecordingTrack("track1");
+		
+		p.save();
 		return p;
 	}
 	
@@ -64,7 +72,62 @@ public class Project {
 	    }
 
 		return false;
+	}
+	
+	
+	public String getSavePath()
+	{
+		return this.apppath + this.projname + ".json";
 		
+	}
+	
+	public void save()
+	{
+		try 
+		{
+		    FileWriter fstream = new FileWriter(getSavePath());
+		    BufferedWriter out = new BufferedWriter(fstream);
+		    out.write(this.toJSON().toString());
+		    out.close();
+		    fstream.close();
+		    
+		}
+		catch (Exception e){
+			Log.e("err", "error while saving project "+  this.projname+ ": "+ e.toString());
+		}
+	}
+	
+	
+	
+	public static Project fromJSON(JSONObject obj)
+	{
+		try 
+		{
+			Project p = new Project(obj.getString("name"));
+			p.setTrackList(TrackList.fromJSON(obj.getJSONArray("tracklist")));
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	public JSONObject toJSON()
+	{
+		try {
+			JSONObject obj = new JSONObject();
+
+			obj.accumulate("name",projname);
+			obj.accumulate("tracklist", this.tlist.toJSON());
+			return obj;
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

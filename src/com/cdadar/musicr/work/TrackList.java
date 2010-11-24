@@ -1,6 +1,7 @@
 package com.cdadar.musicr.work;
 
 import java.util.ArrayList;
+import org.json.*;
 
 public class TrackList {
 	
@@ -95,6 +96,37 @@ public class TrackList {
 			return true;
 		}
 		return false;
+	}
+	
+	public static TrackList fromJSON(JSONArray arr)
+	{
+		TrackList tlist = new TrackList();
+		ArrayList<Track> ts = tlist.getTracks();
+		
+		for(int i =0; i< arr.length();i++)
+		{
+			try {
+				ts.add(Track.FromJSON(arr.getJSONObject(i)));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return tlist;
+	}
+	
+	
+	public JSONArray toJSON()
+	{
+		JSONArray arr = new JSONArray();
+		
+		for(int i = 0; i<tracks.size();i++)
+		{
+			arr.put(tracks.get(i).toJSON());
+		}
+		
+		return arr;
+		
 	}
 
 }
