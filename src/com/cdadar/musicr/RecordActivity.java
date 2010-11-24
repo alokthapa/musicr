@@ -52,22 +52,9 @@ public class RecordActivity extends Activity {
 					    	
 								  mp.setDataSource(P.currentProject().getTrackPath("mix"));
 								  mp.prepare();
-					    
-						    
-								  // and record!
-								  rec = 
-								      new RehearsalAudioRecorder(
-												 true,   //record uncompressed
-												 AudioSource.MIC, 			//audio source
-												 44100, 						//sample rate
-												 AudioFormat.CHANNEL_CONFIGURATION_MONO,  //mono recording
-												 AudioFormat.ENCODING_PCM_16BIT); // 16 bit recording
-								  rec.setOutputFile(p.getCurrentTrackPath());
-								  rec.prepare();
-
 								  mp.start();
 
-								  rec.start();
+								  findViewById(R.id.btnplay).setEnabled(false);
 								  findViewById(R.id.btnrecord).setEnabled(false);
 								  findViewById(R.id.btnstoprecord).setEnabled(true);
 
@@ -90,32 +77,62 @@ public class RecordActivity extends Activity {
 
 							  }
 						      });
-        
-        findViewById(R.id.btnrecord).setOnClickListener(
-							new View.OnClickListener() {
-							    public void onClick(View v) {
 
+        findViewById(R.id.btnrecord).setOnClickListener(
+						      new View.OnClickListener() {
+					
+							  @Override
+							      public void onClick(View v) {
+							      // TODO Auto-generated method stub
 							      PowerManager pm = (PowerManager) v.getContext().getSystemService(Context.POWER_SERVICE);
 							      PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
 							      wl.acquire();
+							      MixWave mix = new MixWave(P.currentProject());
+							      mix.mix();
+							      mp = new MediaPlayer();
+							      try{
+					    	
+								  mp.setDataSource(P.currentProject().getTrackPath("mix"));
+								  mp.prepare();
+					    
+						    
+								  // and record!
+								  rec = 
+								      new RehearsalAudioRecorder(
+												 true,   //record uncompressed
+												 AudioSource.MIC, 			//audio source
+												 44100, 						//sample rate
+												 AudioFormat.CHANNEL_CONFIGURATION_MONO,  //mono recording
+												 AudioFormat.ENCODING_PCM_16BIT); // 16 bit recording
+								  rec.setOutputFile(p.getCurrentTrackPath());
+								  rec.prepare();
 
-								rec = 
-								    new RehearsalAudioRecorder(
-											       true,   //record uncompressed
-											       AudioSource.MIC, 			//audio source
-											       44100, 						//sample rate
-											       AudioFormat.CHANNEL_CONFIGURATION_MONO,  //mono recording
-											       AudioFormat.ENCODING_PCM_16BIT); // 16 bit recording
-								rec.setOutputFile(p.getCurrentTrackPath());
-								rec.prepare();
-								rec.start();
-								findViewById(R.id.btnrecord).setEnabled(false);
-								findViewById(R.id.btnstoprecord).setEnabled(true);
-								wl.release();
-								
-							    }});
+								  mp.start();
 
+								  rec.start();
+								  findViewById(R.id.btnplay).setEnabled(false);
+								  findViewById(R.id.btnrecord).setEnabled(false);
+								  findViewById(R.id.btnstoprecord).setEnabled(true);
 
+							      }
+							      catch(Exception e)
+								  { 
+								      Log.e("err", "error in btnplay onclick: "+ e.toString());
+								      if (mp !=null)
+									  mp.release();
+								      if (rec !=null)
+									  rec.release();
+
+								  }
+							      finally
+								  {
+								      wl.release();
+						    
+
+								  }
+
+							  }
+						      });
         
     	findViewById(R.id.btnsettings ).setOnClickListener(    	
 							   new View.OnClickListener() {
