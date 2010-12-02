@@ -1,0 +1,18 @@
+
+
+Musicr
+
+A non-working multi-track recorder for android.
+
+What can it do?
+
+Currently, it can create a new project and record different tracks which can be mixed down to one track. You can also record a track while playing another.
+
+Why is it opensource?
+
+Because I'm using a lot of code that I know is GPL and some stuff that didn't come with any license.
+
+What has it been tested on?
+
+It has been tested on my Moto Cliq leaked 2.1. I don't know if it works on any other!
+
