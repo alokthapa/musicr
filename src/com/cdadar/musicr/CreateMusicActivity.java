@@ -11,8 +11,7 @@ import android.widget.EditText;
 
 import com.cdadar.musicr.work.*;
 
-public class CreateMusicActivity extends Activity {
-
+public class CreateMusicActivity extends MusicrActivity {
 	
 	private View.OnClickListener btnnewListener = new View.OnClickListener() {
 		
@@ -22,8 +21,8 @@ public class CreateMusicActivity extends Activity {
 			try{
 				Project p = Project.CreateProject(projectname);
 				 Intent myIntent = new Intent(v.getContext(), RecordActivity.class);
-		            P.setCurrentProject(p);
-		            startActivityForResult(myIntent, 0);
+				 saveAsCurrentProject(p);
+				 startActivityForResult(myIntent, 0);
 			}
 			catch(Exception e)
 			{
@@ -53,6 +52,4 @@ public class CreateMusicActivity extends Activity {
     	findViewById(R.id.btncreatecancel).setOnClickListener(btncreatecancelListener);
 
     }
-    
-
 }

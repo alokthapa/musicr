@@ -35,24 +35,10 @@ public class WelcomeActivity extends Activity {
 	
 	private View.OnClickListener selectListener = new View.OnClickListener() {
 		public void onClick(View v) {
-		    MediaPlayer mp = new MediaPlayer();
-		    try{
-		    	Project p = new Project("laba");
-			    mp.setDataSource(p.getTrackPath("oop"));
-			    mp.prepare();
-		    }
-		    catch(Exception e){}
-		    MediaPlayer mp2 = new MediaPlayer();
-		    try{
-		    	Project p = new Project("laba");
-			    mp2.setDataSource(p.getTrackPath("track1"));
-			    mp2.prepare();
-			    mp2.start();
-			    mp.start();
-		    }
-		    catch(Exception e){}
-
+		    Intent myIntent = new Intent(v.getContext(), OpenActivity.class);
+		    startActivityForResult(myIntent, 0);
 		}
+		    
 	};
 	
 	/** Called when the activity is first created. */
@@ -60,7 +46,6 @@ public class WelcomeActivity extends Activity {
     
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
-        
         Button last = (Button) findViewById(R.id.last);
       
     	findViewById(R.id.last).setOnClickListener(lastListener);

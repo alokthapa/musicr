@@ -20,7 +20,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class SettingsActivity extends Activity{
+public class SettingsActivity extends MusicrActivity{
 	
 	TableLayout tlayout = null;
 	
@@ -37,7 +37,6 @@ public class SettingsActivity extends Activity{
 						Toast.makeText(v.getContext(), "longpressed!!", Toast.LENGTH_SHORT).show();
 
 						return false;
-
 					}
 				});
         
@@ -54,7 +53,7 @@ public class SettingsActivity extends Activity{
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						Track t = (Track)buttonView.getTag();
-						P.currentProject().getTrackList().selectTrack(t.getName());
+						getCurrentProject().getTrackList().selectTrack(t.getName());
 						redraw();
 					}
         });
@@ -122,7 +121,7 @@ public class SettingsActivity extends Activity{
 	{
 		LinearLayout layout = (LinearLayout) findViewById(R.id.tracklist);
 
-	    ArrayList<Track> tlist = P.currentProject().getTrackList().getTracks();
+	    ArrayList<Track> tlist = getCurrentProject().getTrackList().getTracks();
 	        
         tlayout = new TableLayout(layout.getContext());
 	    for(int i = 0; i< tlist.size();i++)
@@ -134,7 +133,7 @@ public class SettingsActivity extends Activity{
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 	    Intent myIntent = new Intent(getApplicationContext(), RecordActivity.class);
-	    	P.currentProject().save();
+	    	getCurrentProject().save();
             startActivityForResult(myIntent, 0);
 	    }
 
@@ -147,7 +146,7 @@ public class SettingsActivity extends Activity{
 	{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        ((TextView) findViewById(R.id.txtsettingsproject)).setText("Project: " + P.currentProject().name());
+        ((TextView) findViewById(R.id.txtsettingsproject)).setText("Project: " + getCurrentProject().name());
         
         showTracks();
         
@@ -166,7 +165,8 @@ public class SettingsActivity extends Activity{
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
 								String str = et.getText().toString();
-		        				Project p = P.currentProject();
+		        				
+Project p = getCurrentProject();
 		        				Track t = p.getTrackList().createNewTrack(str);
 		        				addNewTrack(t);
 								LinearLayout layout = (LinearLayout) findViewById(R.id.addtrack);

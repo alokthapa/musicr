@@ -16,7 +16,8 @@
         <activity android:name=".CreateMusicActivity"></activity>
         <activity android:name=".RecordActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
-        
+	<activity android:name=".MusicrActivity"></activity>
+	<activity android:name=".OpenActivity"></activity>
 
     </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />

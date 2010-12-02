@@ -17,7 +17,7 @@ import android.os.PowerManager;
 import android.content.Context;
 import com.cdadar.musicr.work.*;
 
-public class RecordActivity extends Activity {
+public class RecordActivity extends MusicrActivity {
     Project p = null;	
     RehearsalAudioRecorder rec = null;
     MediaPlayer mp = null;
@@ -29,7 +29,7 @@ public class RecordActivity extends Activity {
         setContentView(R.layout.record);
         TextView tv = (TextView)findViewById(R.id.txtrecordproject);
         
-        p = P.currentProject();
+        p = getCurrentProject();
         tv.setText("Project name "+ p.name());
         
         TextView tv1 = (TextView)findViewById(R.id.txtrecordtrack);
@@ -37,7 +37,7 @@ public class RecordActivity extends Activity {
         
         findViewById(R.id.btnstoprecord).setEnabled(false);
 
-	if (P.currentProject().getTrackList().getRecordingTracks().size() < 1)
+	if (getCurrentProject().getTrackList().getRecordingTracks().size() < 1)
 	    {
 		findViewById(R.id.btnplay).setEnabled(false);
 		
@@ -55,11 +55,12 @@ public class RecordActivity extends Activity {
 							      PowerManager pm = (PowerManager) v.getContext().getSystemService(Context.POWER_SERVICE);
 							      wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "musicr");
 							      wl.acquire();
-							      MixWave mix = new MixWave(P.currentProject());
+							      
+MixWave mix = new MixWave(getCurrentProject());
 							      mix.mix();
 							      mp = new MediaPlayer();
 							      try{
-								  mp.setDataSource(P.currentProject().getTrackPath("mix"));
+								  mp.setDataSource(getCurrentProject().getTrackPath("mix"));
 								  mp.prepare();
 								  mp.start();
 
@@ -97,12 +98,12 @@ public class RecordActivity extends Activity {
 							      wl.acquire();
 							      try{
 								  MixWave mix = null;
-								  if (P.currentProject().getTrackList().getRecordingTracks().size() > 0)
+								  if (getCurrentProject().getTrackList().getRecordingTracks().size() > 0)
 								  {
-								      mix = new MixWave(P.currentProject());
+								      mix = new MixWave(getCurrentProject());
 								      mix.mix();
 								      mp = new MediaPlayer();
-								      mp.setDataSource(P.currentProject().getTrackPath("mix"));
+								      mp.setDataSource(getCurrentProject().getTrackPath("mix"));
 								      mp.prepare();
 								  }
 						    
