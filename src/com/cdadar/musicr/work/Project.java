@@ -1,8 +1,6 @@
 package com.cdadar.musicr.work;
 
 import org.json.*;
-
-
 import java.io.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,16 +55,18 @@ public class Project {
 	return null;
     }
 
-
-
     public static Project CreateProject(String projname) throws Exception 
     {
 	Project p = new Project(projname);
 	p.setupProject();
 	p.getTrackList().createNewRecordingTrack("track1");
-		
 	p.save();
 	return p;
+    }
+    
+    public static String [] getProjects()
+    {
+	return null;
     }
 
 
@@ -102,11 +102,9 @@ public class Project {
 	return true;
     }
 	
-	
     public String getSavePath()
     {
-	return APPPATH+ this.projname + ".json";
-		
+	return this.getProjectPath() + "/p.json";
     }
 	
     public void save()
@@ -124,7 +122,6 @@ public class Project {
 	    Log.e("err", "error while saving project "+  this.projname+ ": "+ e.toString());
 	}
     }
-	
 	
 	
     public static Project fromJSON(JSONObject obj)
