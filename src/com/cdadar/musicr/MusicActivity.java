@@ -28,10 +28,6 @@ public class MusicActivity extends Activity {
 			rec.start();
 		}
 		catch(Exception e){ 
-		
-			int x =  2 +0;
-			Toast.makeText(this.getApplicationContext(), e.toString(), 100).show();
-
 			e.printStackTrace();
 		}
 	}
